@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chord Player</title>
+<title>Instrument Player</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -13,9 +13,7 @@
     --accent: #e8c84a;
     --accent2: #e05a3a;
     --text: #f0ede8;
-    --muted: #666;
-    --string1: #c9a84c;
-    --string2: #b8b8b8;
+    --muted: #555;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,222 +26,77 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 20px 60px;
-    background-image: 
-      repeating-linear-gradient(0deg, transparent, transparent 39px, #1a1a1a 39px, #1a1a1a 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, #1a1a1a 39px, #1a1a1a 40px);
+    padding: 36px 20px 80px;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, #181818 39px, #181818 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, #181818 39px, #181818 40px);
   }
 
-  header {
-    text-align: center;
-    margin-bottom: 48px;
-  }
+  header { text-align: center; margin-bottom: 36px; }
 
   h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(56px, 10vw, 96px);
-    letter-spacing: 0.08em;
+    font-size: clamp(52px, 9vw, 88px);
+    letter-spacing: 0.1em;
     line-height: 0.9;
     color: var(--accent);
-    text-shadow: 4px 4px 0 #7a5c00;
+    text-shadow: 3px 3px 0 #7a5c00;
   }
 
   .subtitle {
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.3em;
     color: var(--muted);
     text-transform: uppercase;
     margin-top: 8px;
   }
 
-  .category-label {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    margin-bottom: 16px;
-    padding-left: 4px;
-    border-left: 3px solid var(--accent2);
-    padding-left: 12px;
-  }
-
-  .category {
-    margin-bottom: 40px;
-    width: 100%;
-    max-width: 900px;
-  }
-
-  .chord-grid {
+  /* Instrument tabs */
+  .instrument-tabs {
     display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .chord-card {
+    gap: 4px;
+    margin-bottom: 32px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 4px;
-    padding: 16px 14px 12px;
-    cursor: pointer;
-    transition: all 0.08s ease;
-    position: relative;
-    overflow: hidden;
-    user-select: none;
-    min-width: 100px;
+    padding: 4px;
   }
 
-  .chord-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--accent);
-    opacity: 0;
-    transition: opacity 0.08s;
-  }
-
-  .chord-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(232, 200, 74, 0.12);
-  }
-
-  .chord-card:active, .chord-card.playing {
-    transform: scale(0.96);
-  }
-
-  .chord-card.playing::before { opacity: 0.07; }
-
-  .chord-name {
+  .tab {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: 0.05em;
-    color: var(--accent);
-    line-height: 1;
-    position: relative;
-  }
-
-  .chord-type {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 4px;
-    position: relative;
-  }
-
-  .fretboard {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    margin-top: 10px;
-    position: relative;
-  }
-
-  .string-row {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  }
-
-  .string-label {
-    font-size: 9px;
-    color: var(--muted);
-    width: 12px;
-    text-align: right;
-  }
-
-  .fret-dot {
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    padding: 10px 22px;
+    cursor: pointer;
+    border: none;
     background: transparent;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .fret-dot.open {
-    border-color: #444;
-  }
-
-  .fret-dot.pressed {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-
-  .fret-dot.muted {
-    border-color: transparent;
-    background: transparent;
-  }
-
-  .muted-x {
-    font-size: 9px;
     color: var(--muted);
-    line-height: 1;
-  }
-
-  /* Ripple */
-  .ripple {
-    position: fixed;
-    border-radius: 50%;
-    border: 2px solid var(--accent);
-    pointer-events: none;
-    animation: rippleOut 0.6s ease-out forwards;
-    z-index: 999;
-  }
-
-  @keyframes rippleOut {
-    from { width: 0; height: 0; opacity: 0.8; transform: translate(-50%, -50%); }
-    to { width: 120px; height: 120px; opacity: 0; transform: translate(-50%, -50%); }
-  }
-
-  /* Waveform display */
-  .waveform-bar {
+    border-radius: 2px;
+    transition: all 0.15s;
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: 6px;
-    height: 20px;
   }
 
-  .wave-segment {
-    width: 3px;
-    background: var(--accent);
-    border-radius: 2px;
-    height: 4px;
-    transition: height 0.1s;
-  }
+  .tab .icon { font-size: 16px; }
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--accent); color: #000; }
 
-  .now-playing {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--surface);
-    border: 1px solid var(--accent);
-    padding: 10px 24px;
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    color: var(--accent);
-    border-radius: 2px;
-    opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
-    white-space: nowrap;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-  }
-
-  .now-playing.visible { opacity: 1; }
-
-  .strum-mode {
+  /* Mode toggles */
+  .controls {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 20px;
     margin-bottom: 32px;
-    font-size: 11px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
     letter-spacing: 0.15em;
     color: var(--muted);
     text-transform: uppercase;
@@ -258,7 +111,7 @@
   }
 
   .toggle-btn {
-    padding: 6px 16px;
+    padding: 6px 14px;
     font-family: 'Space Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.1em;
@@ -270,29 +123,326 @@
     text-transform: uppercase;
   }
 
-  .toggle-btn.active {
+  .toggle-btn.active { background: var(--accent); color: #000; }
+
+  /* Panel */
+  .panel { display: none; width: 100%; max-width: 960px; }
+  .panel.active { display: block; }
+
+  /* Chord grid (guitar/ukulele) */
+  .category { margin-bottom: 36px; }
+
+  .category-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 14px;
+    border-left: 3px solid var(--accent2);
+    padding-left: 12px;
+  }
+
+  .chord-grid { display: flex; flex-wrap: wrap; gap: 14px; }
+
+  .chord-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 12px 10px;
+    cursor: pointer;
+    transition: all 0.08s ease;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    min-width: 90px;
+  }
+
+  .chord-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
     background: var(--accent);
-    color: #000;
+    opacity: 0;
+    transition: opacity 0.08s;
+  }
+
+  .chord-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,200,74,0.1); }
+  .chord-card:active, .chord-card.playing { transform: scale(0.96); }
+  .chord-card.playing::before { opacity: 0.08; }
+
+  .chord-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    line-height: 1;
+    position: relative;
+  }
+
+  .chord-type {
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 3px;
+    position: relative;
+  }
+
+  .fretboard { display: flex; flex-direction: column; gap: 3px; margin-top: 8px; }
+  .string-row { display: flex; align-items: center; gap: 3px; }
+  .string-label { font-size: 8px; color: var(--muted); width: 10px; text-align: right; }
+
+  .fret-dot {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .fret-dot.pressed { background: var(--accent); border-color: var(--accent); }
+  .fret-dot.muted { border-color: transparent; }
+  .muted-x { font-size: 8px; color: var(--muted); }
+
+  /* ---- PIANO ---- */
+  .piano-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .piano-keys {
+    position: relative;
+    display: flex;
+    height: 160px;
+    user-select: none;
+  }
+
+  .white-key {
+    width: 44px;
+    height: 160px;
+    background: #f5f0e8;
+    border: 1px solid #bbb;
+    border-radius: 0 0 6px 6px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.06s;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 8px;
+  }
+
+  .white-key:hover { background: #fffde0; }
+  .white-key.playing { background: var(--accent); }
+
+  .white-key .key-label {
+    font-size: 9px;
+    color: #999;
+    letter-spacing: 0.05em;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .white-key.playing .key-label { color: #000; }
+
+  .black-key {
+    width: 28px;
+    height: 100px;
+    background: #111;
+    border: 1px solid #000;
+    border-radius: 0 0 4px 4px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    transition: background 0.06s;
+  }
+
+  .black-key:hover { background: #333; }
+  .black-key.playing { background: var(--accent2); }
+
+  .piano-chords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    max-width: 800px;
+  }
+
+  .piano-chord-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    padding: 10px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.08s;
+  }
+
+  .piano-chord-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .piano-chord-btn.playing { background: var(--accent); color: #000; transform: scale(0.96); }
+
+  .piano-section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  /* ---- DRUMS ---- */
+  .drum-kit {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .drum-pad {
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.06s;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .drum-pad::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, var(--accent) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+
+  .drum-pad:hover { border-color: var(--accent); transform: scale(1.02); }
+  .drum-pad:active, .drum-pad.playing { transform: scale(0.94); border-color: var(--accent); }
+  .drum-pad.playing::after { opacity: 0.15; }
+
+  .drum-icon { font-size: 28px; position: relative; z-index: 1; }
+  .drum-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    position: relative;
+    z-index: 1;
+  }
+
+  .drum-key {
+    font-size: 9px;
+    color: #444;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* Now playing */
+  .now-playing {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    padding: 10px 24px;
+    color: var(--accent);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    white-space: nowrap;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.15em;
+  }
+
+  .now-playing.visible { opacity: 1; }
+
+  /* Ripple */
+  .ripple {
+    position: fixed;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    pointer-events: none;
+    animation: rippleOut 0.6s ease-out forwards;
+    z-index: 999;
+  }
+
+  @keyframes rippleOut {
+    from { width: 0; height: 0; opacity: 0.8; transform: translate(-50%,-50%); }
+    to { width: 120px; height: 120px; opacity: 0; transform: translate(-50%,-50%); }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>CHORD<br>PLAY</h1>
-  <p class="subtitle">click any chord to hear it</p>
+  <h1>PLAY</h1>
+  <p class="subtitle">click anything to hear it</p>
 </header>
 
-<div class="strum-mode">
-  <span>Mode</span>
-  <div class="toggle">
-    <button class="toggle-btn active" id="btn-strum" onclick="setMode('strum')">Strum</button>
-    <button class="toggle-btn" id="btn-arp" onclick="setMode('arp')">Arpeggio</button>
-    <button class="toggle-btn" id="btn-single" onclick="setMode('single')">Single</button>
+<!-- Instrument Tabs -->
+<div class="instrument-tabs">
+  <button class="tab active" onclick="switchInstrument('guitar')"><span class="icon">🎸</span> Guitar</button>
+  <button class="tab" onclick="switchInstrument('ukulele')"><span class="icon">🪕</span> Ukulele</button>
+  <button class="tab" onclick="switchInstrument('piano')"><span class="icon">🎹</span> Piano</button>
+  <button class="tab" onclick="switchInstrument('drums')"><span class="icon">🥁</span> Drums</button>
+</div>
+
+<!-- Mode controls (guitar/ukulele) -->
+<div class="controls" id="strumControls">
+  <div class="control-group">
+    <span>Mode</span>
+    <div class="toggle">
+      <button class="toggle-btn active" id="btn-strum" onclick="setMode('strum')">Strum</button>
+      <button class="toggle-btn" id="btn-arp" onclick="setMode('arp')">Arpeggio</button>
+      <button class="toggle-btn" id="btn-single" onclick="setMode('single')">Single</button>
+    </div>
   </div>
 </div>
 
-<div id="categories"></div>
+<!-- GUITAR -->
+<div class="panel active" id="panel-guitar"></div>
+
+<!-- UKULELE -->
+<div class="panel" id="panel-ukulele"></div>
+
+<!-- PIANO -->
+<div class="panel" id="panel-piano">
+  <div class="piano-wrap">
+    <div>
+      <div class="piano-section-label" style="margin-bottom:12px;">PLAY INDIVIDUAL NOTES</div>
+      <div class="piano-keys" id="pianoKeys"></div>
+    </div>
+    <div style="width:100%;max-width:800px;">
+      <div class="piano-section-label" style="margin-bottom:12px;">PLAY CHORDS</div>
+      <div class="piano-chords" id="pianoChords"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DRUMS -->
+<div class="panel" id="panel-drums">
+  <div class="drum-kit" id="drumKit"></div>
+  <p style="text-align:center;font-size:10px;color:var(--muted);margin-top:20px;letter-spacing:0.15em;">USE KEYBOARD SHORTCUTS SHOWN ON EACH PAD</p>
+</div>
 
 <div class="now-playing" id="nowPlaying"></div>
 
@@ -305,35 +455,199 @@ function ensureCtx() {
   if (ctx.state === 'suspended') ctx.resume();
 }
 
-// Guitar string open tuning (Hz): E2, A2, D3, G3, B3, E4
-const OPEN_STRINGS = [82.41, 110.00, 146.83, 196.00, 246.94, 329.63];
+// ===================== AUDIO ENGINE =====================
 
-// Chords: fret positions per string [E A D G B e], -1 = muted
-const CHORDS = {
+function playTone(freq, startTime, duration, vol = 0.35, type = 'sawtooth', detune = 5) {
+  const osc = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
+  const gain = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 3200;
+
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, startTime);
+  osc2.type = 'triangle';
+  osc2.frequency.setValueAtTime(freq, startTime);
+  osc2.detune.setValueAtTime(detune, startTime);
+
+  gain.gain.setValueAtTime(0, startTime);
+  gain.gain.linearRampToValueAtTime(vol, startTime + 0.005);
+  gain.gain.exponentialRampToValueAtTime(vol * 0.4, startTime + 0.08);
+  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+  osc.connect(filter); osc2.connect(filter);
+  filter.connect(gain); gain.connect(ctx.destination);
+  osc.start(startTime); osc.stop(startTime + duration);
+  osc2.start(startTime); osc2.stop(startTime + duration);
+}
+
+function playPianoTone(freq, startTime, duration, vol = 0.4) {
+  // Cleaner piano-like tone using sine + harmonics
+  [1, 2, 3, 4].forEach((harmonic, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const v = vol / (harmonic * 1.5);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq * harmonic, startTime);
+    gain.gain.setValueAtTime(0, startTime);
+    gain.gain.linearRampToValueAtTime(v, startTime + 0.003);
+    gain.gain.exponentialRampToValueAtTime(v * 0.3, startTime + 0.3);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(startTime); osc.stop(startTime + duration);
+  });
+}
+
+// Drum sounds
+function playKick(t) {
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.frequency.setValueAtTime(150, t);
+  osc.frequency.exponentialRampToValueAtTime(50, t + 0.15);
+  gain.gain.setValueAtTime(1, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(t); osc.stop(t + 0.5);
+}
+
+function playSnare(t) {
+  // Noise burst
+  const bufSize = ctx.sampleRate * 0.2;
+  const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufSize; i++) data[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.value = 1500;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.8, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+  src.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  src.start(t); src.stop(t + 0.25);
+
+  // Body tone
+  const osc = ctx.createOscillator();
+  const g2 = ctx.createGain();
+  osc.frequency.value = 220;
+  g2.gain.setValueAtTime(0.3, t);
+  g2.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+  osc.connect(g2); g2.connect(ctx.destination);
+  osc.start(t); osc.stop(t + 0.15);
+}
+
+function playHihat(t, open = false) {
+  const bufSize = ctx.sampleRate * (open ? 0.4 : 0.08);
+  const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufSize; i++) data[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'highpass';
+  filter.frequency.value = 7000;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.5, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + (open ? 0.4 : 0.08));
+  src.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  src.start(t); src.stop(t + (open ? 0.5 : 0.1));
+}
+
+function playTom(t, freq = 120) {
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.frequency.setValueAtTime(freq, t);
+  osc.frequency.exponentialRampToValueAtTime(freq * 0.5, t + 0.2);
+  gain.gain.setValueAtTime(0.7, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(t); osc.stop(t + 0.4);
+}
+
+function playCymbal(t) {
+  const bufSize = ctx.sampleRate * 0.8;
+  const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufSize; i++) data[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.value = 5000;
+  filter.Q.value = 0.5;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.4, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.8);
+  src.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  src.start(t); src.stop(t + 1);
+}
+
+function playClap(t) {
+  [0, 0.01, 0.02].forEach(offset => {
+    const bufSize = ctx.sampleRate * 0.1;
+    const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bufSize; i++) data[i] = Math.random() * 2 - 1;
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 1200;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.6, t + offset);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.1);
+    src.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+    src.start(t + offset); src.stop(t + offset + 0.15);
+  });
+}
+
+function playRide(t) {
+  const bufSize = ctx.sampleRate * 0.6;
+  const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufSize; i++) data[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'highpass';
+  filter.frequency.value = 4000;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.3, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
+  src.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  src.start(t); src.stop(t + 0.7);
+}
+
+// ===================== GUITAR DATA =====================
+const GUITAR_STRINGS = [82.41, 110.00, 146.83, 196.00, 246.94, 329.63];
+
+const GUITAR_CHORDS = {
   'Major': [
-    { name: 'E',  type: 'Major',   frets: [0,2,2,1,0,0] },
-    { name: 'A',  type: 'Major',   frets: [-1,0,2,2,2,0] },
-    { name: 'D',  type: 'Major',   frets: [-1,-1,0,2,3,2] },
-    { name: 'G',  type: 'Major',   frets: [3,2,0,0,0,3] },
-    { name: 'C',  type: 'Major',   frets: [-1,3,2,0,1,0] },
-    { name: 'F',  type: 'Major',   frets: [1,1,3,3,3,1] },
-    { name: 'B',  type: 'Major',   frets: [-1,2,4,4,4,2] },
+    { name: 'E',  type: 'Major', frets: [0,2,2,1,0,0] },
+    { name: 'A',  type: 'Major', frets: [-1,0,2,2,2,0] },
+    { name: 'D',  type: 'Major', frets: [-1,-1,0,2,3,2] },
+    { name: 'G',  type: 'Major', frets: [3,2,0,0,0,3] },
+    { name: 'C',  type: 'Major', frets: [-1,3,2,0,1,0] },
+    { name: 'F',  type: 'Major', frets: [1,1,3,3,3,1] },
+    { name: 'B',  type: 'Major', frets: [-1,2,4,4,4,2] },
   ],
   'Minor': [
-    { name: 'Em', type: 'Minor',   frets: [0,2,2,0,0,0] },
-    { name: 'Am', type: 'Minor',   frets: [-1,0,2,2,1,0] },
-    { name: 'Dm', type: 'Minor',   frets: [-1,-1,0,2,3,1] },
-    { name: 'Gm', type: 'Minor',   frets: [3,5,5,3,3,3] },  // barre
-    { name: 'Bm', type: 'Minor',   frets: [-1,2,4,4,3,2] },
-    { name: 'Cm', type: 'Minor',   frets: [-1,3,5,5,4,3] },
+    { name: 'Em', type: 'Minor', frets: [0,2,2,0,0,0] },
+    { name: 'Am', type: 'Minor', frets: [-1,0,2,2,1,0] },
+    { name: 'Dm', type: 'Minor', frets: [-1,-1,0,2,3,1] },
+    { name: 'Gm', type: 'Minor', frets: [3,5,5,3,3,3] },
+    { name: 'Bm', type: 'Minor', frets: [-1,2,4,4,3,2] },
+    { name: 'Cm', type: 'Minor', frets: [-1,3,5,5,4,3] },
   ],
   '7th': [
-    { name: 'G7', type: '7th',     frets: [3,2,0,0,0,1] },
-    { name: 'C7', type: '7th',     frets: [-1,3,2,3,1,0] },
-    { name: 'D7', type: '7th',     frets: [-1,-1,0,2,1,2] },
-    { name: 'E7', type: '7th',     frets: [0,2,0,1,0,0] },
-    { name: 'A7', type: '7th',     frets: [-1,0,2,0,2,0] },
-    { name: 'B7', type: '7th',     frets: [-1,2,1,2,0,2] },
+    { name: 'G7', type: '7th',   frets: [3,2,0,0,0,1] },
+    { name: 'C7', type: '7th',   frets: [-1,3,2,3,1,0] },
+    { name: 'D7', type: '7th',   frets: [-1,-1,0,2,1,2] },
+    { name: 'E7', type: '7th',   frets: [0,2,0,1,0,0] },
+    { name: 'A7', type: '7th',   frets: [-1,0,2,0,2,0] },
+    { name: 'B7', type: '7th',   frets: [-1,2,1,2,0,2] },
   ],
   'Special': [
     { name: 'Cadd9', type: 'Add9', frets: [-1,3,2,0,3,3] },
@@ -345,45 +659,111 @@ const CHORDS = {
   ]
 };
 
-function fretToFreq(stringIdx, fret) {
-  return OPEN_STRINGS[stringIdx] * Math.pow(2, fret / 12);
-}
+// ===================== UKULELE DATA =====================
+// Tuning: G4 C4 E4 A4
+const UKE_STRINGS = [392.00, 261.63, 329.63, 440.00];
 
-function playNote(freq, startTime, duration, vol = 0.4) {
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  const filter = ctx.createBiquadFilter();
+const UKE_CHORDS = {
+  'Major': [
+    { name: 'C',  type: 'Major', frets: [0,0,0,3] },
+    { name: 'G',  type: 'Major', frets: [0,2,3,2] },
+    { name: 'F',  type: 'Major', frets: [2,0,1,0] },
+    { name: 'A',  type: 'Major', frets: [2,1,0,0] },
+    { name: 'D',  type: 'Major', frets: [2,2,2,0] },
+    { name: 'E',  type: 'Major', frets: [4,4,4,2] },
+    { name: 'Bb', type: 'Major', frets: [3,2,1,1] },
+  ],
+  'Minor': [
+    { name: 'Am', type: 'Minor', frets: [2,0,0,0] },
+    { name: 'Em', type: 'Minor', frets: [0,4,3,2] },
+    { name: 'Dm', type: 'Minor', frets: [2,2,1,0] },
+    { name: 'Gm', type: 'Minor', frets: [0,2,3,1] },
+    { name: 'Cm', type: 'Minor', frets: [0,3,3,3] },
+    { name: 'Fm', type: 'Minor', frets: [1,0,1,3] },
+  ],
+  '7th': [
+    { name: 'G7', type: '7th',   frets: [0,2,1,2] },
+    { name: 'C7', type: '7th',   frets: [0,0,0,1] },
+    { name: 'D7', type: '7th',   frets: [2,2,2,3] },
+    { name: 'A7', type: '7th',   frets: [0,1,0,0] },
+    { name: 'E7', type: '7th',   frets: [1,2,0,2] },
+    { name: 'F7', type: '7th',   frets: [2,3,1,3] },
+  ],
+  'Special': [
+    { name: 'Cmaj7', type: 'Maj7', frets: [0,0,0,2] },
+    { name: 'Fmaj7', type: 'Maj7', frets: [2,4,1,0] },  // corrected
+    { name: 'Am7',   type: 'Min7', frets: [0,0,0,0] },
+    { name: 'Dsus2', type: 'Sus2', frets: [2,2,0,0] },
+    { name: 'Gsus4', type: 'Sus4', frets: [0,2,3,3] },
+    { name: 'Cadd9', type: 'Add9', frets: [0,2,0,3] },
+  ]
+};
 
-  filter.type = 'lowpass';
-  filter.frequency.value = 3000;
-  filter.Q.value = 1;
+// ===================== PIANO DATA =====================
+const NOTE_FREQS = {
+  'C3':130.81,'D3':146.83,'E3':164.81,'F3':174.61,'G3':196.00,'A3':220.00,'B3':246.94,
+  'C4':261.63,'D4':293.66,'E4':329.63,'F4':349.23,'G4':392.00,'A4':440.00,'B4':493.88,
+  'C5':523.25,'D5':587.33,'E5':659.25,
+  'C#3':138.59,'D#3':155.56,'F#3':185.00,'G#3':207.65,'A#3':233.08,
+  'C#4':277.18,'D#4':311.13,'F#4':369.99,'G#4':415.30,'A#4':466.16,
+  'C#5':554.37,'D#5':622.25,
+};
 
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(freq, startTime);
+const PIANO_KEYS_LAYOUT = [
+  { note:'C4', type:'white' },{ note:'C#4', type:'black', offset: 30 },
+  { note:'D4', type:'white' },{ note:'D#4', type:'black', offset: 74 },
+  { note:'E4', type:'white' },
+  { note:'F4', type:'white' },{ note:'F#4', type:'black', offset: 162 },
+  { note:'G4', type:'white' },{ note:'G#4', type:'black', offset: 206 },
+  { note:'A4', type:'white' },{ note:'A#4', type:'black', offset: 250 },
+  { note:'B4', type:'white' },
+  { note:'C5', type:'white' },{ note:'C#5', type:'black', offset: 338 },
+  { note:'D5', type:'white' },{ note:'D#5', type:'black', offset: 382 },
+  { note:'E5', type:'white' },
+];
 
-  // Slight detune for richness
-  const osc2 = ctx.createOscillator();
-  osc2.type = 'triangle';
-  osc2.frequency.setValueAtTime(freq, startTime);
-  osc2.detune.setValueAtTime(5, startTime);
-  osc2.connect(gain);
+const PIANO_CHORDS = {
+  'Major': [
+    { name: 'C', notes: ['C4','E4','G4'] },
+    { name: 'D', notes: ['D4','F#4','A4'] },
+    { name: 'E', notes: ['E4','G#4','B4'] },
+    { name: 'F', notes: ['F4','A4','C5'] },
+    { name: 'G', notes: ['G4','B4','D5'] },
+    { name: 'A', notes: ['A4','C#5','E5'] },
+  ],
+  'Minor': [
+    { name: 'Cm', notes: ['C4','D#4','G4'] },
+    { name: 'Dm', notes: ['D4','F4','A4'] },
+    { name: 'Em', notes: ['E4','G4','B4'] },
+    { name: 'Fm', notes: ['F4','G#4','C5'] },
+    { name: 'Gm', notes: ['G4','A#4','D5'] },
+    { name: 'Am', notes: ['A4','C5','E5'] },
+  ],
+  '7th': [
+    { name: 'C7', notes: ['C4','E4','G4','A#4'] },
+    { name: 'G7', notes: ['G4','B4','D5','F4'] },
+    { name: 'D7', notes: ['D4','F#4','A4','C5'] },
+    { name: 'Am7', notes: ['A4','C5','E5','G4'] },
+    { name: 'Fmaj7', notes: ['F4','A4','C5','E5'] },
+    { name: 'Cmaj7', notes: ['C4','E4','G4','B4'] },
+  ]
+};
 
-  gain.gain.setValueAtTime(0, startTime);
-  gain.gain.linearRampToValueAtTime(vol, startTime + 0.005);
-  gain.gain.exponentialRampToValueAtTime(vol * 0.4, startTime + 0.1);
-  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+// ===================== DRUM DATA =====================
+const DRUMS = [
+  { name: 'KICK',    icon: '🔵', key: 'Q', fn: (t) => playKick(t) },
+  { name: 'SNARE',   icon: '⚪', key: 'W', fn: (t) => playSnare(t) },
+  { name: 'HI-HAT',  icon: '🟡', key: 'E', fn: (t) => playHihat(t, false) },
+  { name: 'OPEN HAT',icon: '🔶', key: 'R', fn: (t) => playHihat(t, true) },
+  { name: 'TOM HI',  icon: '🔴', key: 'A', fn: (t) => playTom(t, 160) },
+  { name: 'TOM MID', icon: '🟠', key: 'S', fn: (t) => playTom(t, 110) },
+  { name: 'TOM LOW',  icon: '🟤', key: 'D', fn: (t) => playTom(t, 80) },
+  { name: 'CLAP',    icon: '👏', key: 'F', fn: (t) => playClap(t) },
+  { name: 'CYMBAL',  icon: '✨', key: 'Z', fn: (t) => playCymbal(t) },
+  { name: 'RIDE',    icon: '⭐', key: 'X', fn: (t) => playRide(t) },
+];
 
-  osc.connect(filter);
-  osc2.connect(filter);
-  filter.connect(gain);
-  gain.connect(ctx.destination);
-
-  osc.start(startTime);
-  osc.stop(startTime + duration);
-  osc2.start(startTime);
-  osc2.stop(startTime + duration);
-}
-
+// ===================== PLAYBACK =====================
 let currentMode = 'strum';
 
 function setMode(mode) {
@@ -392,36 +772,56 @@ function setMode(mode) {
   document.getElementById('btn-' + mode).classList.add('active');
 }
 
-function playChord(chord, el) {
+function fretToFreq(openStrings, stringIdx, fret) {
+  return openStrings[stringIdx] * Math.pow(2, fret / 12);
+}
+
+function playStringChord(chord, openStrings, el) {
   ensureCtx();
   const now = ctx.currentTime;
-  const strings = chord.frets;
-
   el.classList.add('playing');
   setTimeout(() => el.classList.remove('playing'), 300);
 
+  const active = chord.frets.map((f, i) => ({ f, i })).filter(x => x.f !== -1);
+
   if (currentMode === 'strum') {
-    strings.forEach((fret, i) => {
-      if (fret === -1) return;
-      const freq = fretToFreq(i, fret);
-      playNote(freq, now + i * 0.025, 2.2, 0.28);
+    active.forEach(({ f, i }, idx) => {
+      playTone(fretToFreq(openStrings, i, f), now + idx * 0.025, 2.0, 0.26);
     });
   } else if (currentMode === 'arp') {
-    const active = strings.map((f,i) => ({f,i})).filter(x => x.f !== -1);
-    active.forEach(({f,i}, idx) => {
-      const freq = fretToFreq(i, f);
-      playNote(freq, now + idx * 0.12, 1.8, 0.32);
+    active.forEach(({ f, i }, idx) => {
+      playTone(fretToFreq(openStrings, i, f), now + idx * 0.13, 1.8, 0.3);
     });
   } else {
-    // Single - just root note
-    const root = strings.find(f => f !== -1);
-    const rootIdx = strings.findIndex(f => f !== -1);
-    if (root !== undefined) playNote(fretToFreq(rootIdx, root), now, 1.5, 0.45);
+    const first = active[0];
+    if (first) playTone(fretToFreq(openStrings, first.i, first.f), now, 1.5, 0.42);
   }
-
   showNowPlaying(chord.name);
 }
 
+function playPianoChord(chord, el) {
+  ensureCtx();
+  const now = ctx.currentTime;
+  el.classList.add('playing');
+  setTimeout(() => el.classList.remove('playing'), 400);
+  chord.notes.forEach((note, i) => {
+    const freq = NOTE_FREQS[note];
+    if (freq) playPianoTone(freq, now + i * 0.02, 2.5, 0.35);
+  });
+  showNowPlaying(chord.name);
+}
+
+function playPianoNote(note, el) {
+  ensureCtx();
+  const freq = NOTE_FREQS[note];
+  if (!freq) return;
+  el.classList.add('playing');
+  setTimeout(() => el.classList.remove('playing'), 300);
+  playPianoTone(freq, ctx.currentTime, 1.5, 0.4);
+  showNowPlaying(note);
+}
+
+// ===================== NOW PLAYING =====================
 let npTimeout;
 function showNowPlaying(name) {
   const el = document.getElementById('nowPlaying');
@@ -440,8 +840,8 @@ function makeRipple(e) {
   setTimeout(() => r.remove(), 700);
 }
 
-function buildFretboard(frets) {
-  const stringNames = ['E','A','D','G','B','e'];
+// ===================== FRETBOARD BUILDER =====================
+function buildFretboard(frets, labels) {
   const mini = document.createElement('div');
   mini.className = 'fretboard';
   frets.forEach((fret, i) => {
@@ -449,20 +849,17 @@ function buildFretboard(frets) {
     row.className = 'string-row';
     const lbl = document.createElement('span');
     lbl.className = 'string-label';
-    lbl.textContent = stringNames[i];
+    lbl.textContent = labels[i];
     row.appendChild(lbl);
-
     if (fret === -1) {
       const dot = document.createElement('div');
       dot.className = 'fret-dot muted';
       const x = document.createElement('span');
-      x.className = 'muted-x';
-      x.textContent = '×';
-      dot.appendChild(x);
-      row.appendChild(dot);
+      x.className = 'muted-x'; x.textContent = '×';
+      dot.appendChild(x); row.appendChild(dot);
     } else {
       const maxFret = Math.max(...frets.filter(f => f !== -1)) || 1;
-      for (let f = 0; f <= Math.min(maxFret, 4); f++) {
+      for (let f = 0; f <= Math.min(maxFret, 5); f++) {
         const dot = document.createElement('div');
         dot.className = 'fret-dot' + (fret === f && fret > 0 ? ' pressed' : fret === 0 && f === 0 ? ' open' : '');
         row.appendChild(dot);
@@ -473,50 +870,139 @@ function buildFretboard(frets) {
   return mini;
 }
 
-function renderAll() {
-  const container = document.getElementById('categories');
-  Object.entries(CHORDS).forEach(([cat, chords]) => {
+// ===================== RENDER FUNCTIONS =====================
+function renderStringPanel(panelId, chords, openStrings, stringLabels) {
+  const panel = document.getElementById(panelId);
+  panel.innerHTML = '';
+  Object.entries(chords).forEach(([cat, chordList]) => {
     const section = document.createElement('div');
     section.className = 'category';
-
     const label = document.createElement('div');
     label.className = 'category-label';
     label.textContent = cat;
     section.appendChild(label);
-
     const grid = document.createElement('div');
     grid.className = 'chord-grid';
-
-    chords.forEach(chord => {
+    chordList.forEach(chord => {
       const card = document.createElement('div');
       card.className = 'chord-card';
-
       const name = document.createElement('div');
-      name.className = 'chord-name';
-      name.textContent = chord.name;
-
+      name.className = 'chord-name'; name.textContent = chord.name;
       const type = document.createElement('div');
-      type.className = 'chord-type';
-      type.textContent = chord.type;
-
-      card.appendChild(name);
-      card.appendChild(type);
-      card.appendChild(buildFretboard(chord.frets));
-
-      card.addEventListener('click', (e) => {
-        playChord(chord, card);
-        makeRipple(e);
-      });
-
+      type.className = 'chord-type'; type.textContent = chord.type;
+      card.appendChild(name); card.appendChild(type);
+      card.appendChild(buildFretboard(chord.frets, stringLabels));
+      card.addEventListener('click', (e) => { playStringChord(chord, openStrings, card); makeRipple(e); });
       grid.appendChild(card);
     });
-
     section.appendChild(grid);
-    container.appendChild(section);
+    panel.appendChild(section);
   });
 }
 
-renderAll();
+function renderPiano() {
+  // Keys
+  const keysEl = document.getElementById('pianoKeys');
+  const whites = PIANO_KEYS_LAYOUT.filter(k => k.type === 'white');
+  const blacks = PIANO_KEYS_LAYOUT.filter(k => k.type === 'black');
+
+  whites.forEach((k, i) => {
+    const el = document.createElement('div');
+    el.className = 'white-key';
+    const lbl = document.createElement('span');
+    lbl.className = 'key-label';
+    lbl.textContent = k.note.replace(/\d/,'');
+    el.appendChild(lbl);
+    el.addEventListener('click', (e) => { playPianoNote(k.note, el); makeRipple(e); });
+    keysEl.appendChild(el);
+  });
+
+  blacks.forEach(k => {
+    const el = document.createElement('div');
+    el.className = 'black-key';
+    el.style.left = k.offset + 'px';
+    el.addEventListener('click', (e) => { playPianoNote(k.note, el); makeRipple(e); e.stopPropagation(); });
+    keysEl.appendChild(el);
+  });
+
+  // Chords
+  const chordsEl = document.getElementById('pianoChords');
+  Object.entries(PIANO_CHORDS).forEach(([cat, chordList]) => {
+    const label = document.createElement('div');
+    label.className = 'piano-section-label';
+    label.textContent = cat;
+    label.style.marginBottom = '8px';
+    label.style.marginTop = '16px';
+    chordsEl.appendChild(label);
+    const row = document.createElement('div');
+    row.style.display = 'flex'; row.style.flexWrap = 'wrap'; row.style.gap = '8px'; row.style.justifyContent = 'center';
+    chordList.forEach(chord => {
+      const btn = document.createElement('button');
+      btn.className = 'piano-chord-btn';
+      btn.textContent = chord.name;
+      btn.addEventListener('click', (e) => { playPianoChord(chord, btn); makeRipple(e); });
+      row.appendChild(btn);
+    });
+    chordsEl.appendChild(row);
+  });
+}
+
+function renderDrums() {
+  const kit = document.getElementById('drumKit');
+  DRUMS.forEach(drum => {
+    const pad = document.createElement('div');
+    pad.className = 'drum-pad';
+    pad.id = 'drum-' + drum.key;
+    pad.innerHTML = `
+      <span class="drum-key">${drum.key}</span>
+      <span class="drum-icon">${drum.icon}</span>
+      <span class="drum-name">${drum.name}</span>
+    `;
+    pad.addEventListener('click', (e) => {
+      ensureCtx();
+      drum.fn(ctx.currentTime);
+      pad.classList.add('playing');
+      setTimeout(() => pad.classList.remove('playing'), 150);
+      showNowPlaying(drum.name);
+      makeRipple(e);
+    });
+    kit.appendChild(pad);
+  });
+}
+
+// Keyboard for drums
+document.addEventListener('keydown', (e) => {
+  const key = e.key.toUpperCase();
+  const drum = DRUMS.find(d => d.key === key);
+  if (drum) {
+    ensureCtx();
+    drum.fn(ctx.currentTime);
+    const pad = document.getElementById('drum-' + drum.key);
+    if (pad) {
+      pad.classList.add('playing');
+      setTimeout(() => pad.classList.remove('playing'), 150);
+    }
+    showNowPlaying(drum.name);
+  }
+});
+
+// ===================== INSTRUMENT SWITCHER =====================
+let currentInstrument = 'guitar';
+
+function switchInstrument(name) {
+  currentInstrument = name;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab')[['guitar','ukulele','piano','drums'].indexOf(name)].classList.add('active');
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.getElementById('strumControls').style.display = (name === 'guitar' || name === 'ukulele') ? 'flex' : 'none';
+}
+
+// ===================== INIT =====================
+renderStringPanel('panel-guitar', GUITAR_CHORDS, GUITAR_STRINGS, ['E','A','D','G','B','e']);
+renderStringPanel('panel-ukulele', UKE_CHORDS, UKE_STRINGS, ['G','C','E','A']);
+renderPiano();
+renderDrums();
 </script>
 </body>
 </html>
