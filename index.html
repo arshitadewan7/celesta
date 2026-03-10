@@ -295,7 +295,186 @@
     margin-bottom: 4px;
   }
 
-  /* ---- DRUMS ---- */
+  /* ---- OMNICHORD ---- */
+  .omni-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .omni-hint {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .omni-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .omni-chords {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .omni-chord-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.1s;
+    text-align: center;
+    min-width: 70px;
+  }
+
+  .omni-chord-btn .sub {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+
+  .omni-chord-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .omni-chord-btn.selected { background: var(--accent); color: #000; border-color: var(--accent); }
+  .omni-chord-btn.selected .sub { color: #333; }
+
+  .omni-strumplate {
+    flex: 1;
+    min-width: 160px;
+    max-width: 220px;
+    background: #1a1208;
+    border: 2px solid #3a2a10;
+    border-radius: 12px;
+    padding: 16px 12px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    cursor: ns-resize;
+    user-select: none;
+  }
+
+  .omni-strum-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    color: #7a5c20;
+  }
+
+  .omni-strum-sub {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: #4a3a10;
+    margin-top: -6px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+  }
+
+  .omni-strings {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+    height: 260px;
+    width: 100%;
+    padding: 0 8px;
+  }
+
+  .omni-string-line {
+    flex: 1;
+    border-radius: 2px;
+    transition: background 0.1s, box-shadow 0.1s;
+    cursor: pointer;
+  }
+
+  .omni-string-line.lit {
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* ---- SITAR ---- */
+  .sitar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .sitar-desc {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .sitar-sections { width: 100%; }
+
+  .sitar-section { margin-bottom: 32px; }
+
+  .sitar-section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 14px;
+    border-left: 3px solid #c8844a;
+    padding-left: 12px;
+  }
+
+  .sitar-notes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .sitar-note-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    padding: 14px 20px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: #c8844a;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.08s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sitar-note-btn .sitar-sub {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+
+  .sitar-note-btn:hover { border-color: #c8844a; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,132,74,0.15); }
+  .sitar-note-btn.playing { transform: scale(0.95); background: #1a0e06; border-color: #c8844a; }
+
+  /* ---- DRUMS (existing) ---- */
   .drum-kit {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -404,6 +583,8 @@
   <button class="tab" onclick="switchInstrument('ukulele')"><span class="icon">🪕</span> Ukulele</button>
   <button class="tab" onclick="switchInstrument('piano')"><span class="icon">🎹</span> Piano</button>
   <button class="tab" onclick="switchInstrument('drums')"><span class="icon">🥁</span> Drums</button>
+  <button class="tab" onclick="switchInstrument('omnichord')"><span class="icon">🎵</span> Omnichord</button>
+  <button class="tab" onclick="switchInstrument('sitar')"><span class="icon">🪘</span> Sitar</button>
 </div>
 
 <!-- Mode controls (guitar/ukulele) -->
@@ -435,6 +616,29 @@
       <div class="piano-section-label" style="margin-bottom:12px;">PLAY CHORDS</div>
       <div class="piano-chords" id="pianoChords"></div>
     </div>
+  </div>
+</div>
+
+<!-- OMNICHORD -->
+<div class="panel" id="panel-omnichord">
+  <div class="omni-wrap">
+    <div class="omni-hint">① Pick a chord button &nbsp;→&nbsp; ② Sweep the strumplate</div>
+    <div class="omni-layout">
+      <div class="omni-chords" id="omniChords"></div>
+      <div class="omni-strumplate" id="omniStrumplate">
+        <div class="omni-strum-label">STRUMPLATE</div>
+        <div class="omni-strum-label omni-strum-sub">sweep up or down</div>
+        <div class="omni-strings" id="omniStrings"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SITAR -->
+<div class="panel" id="panel-sitar">
+  <div class="sitar-wrap">
+    <div class="sitar-desc">Ragas &amp; scales rooted in Indian classical tuning. Click a note to hear the sitar tone.</div>
+    <div class="sitar-sections" id="sitarSections"></div>
   </div>
 </div>
 
@@ -986,13 +1190,262 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// ===================== OMNICHORD DATA =====================
+const OMNI_CHORDS = [
+  { name: 'C',   type: 'Maj', freqs: [261.63, 329.63, 392.00, 523.25, 659.25] },
+  { name: 'Cm',  type: 'Min', freqs: [261.63, 311.13, 392.00, 523.25, 622.25] },
+  { name: 'C7',  type: '7th', freqs: [261.63, 329.63, 392.00, 466.16, 523.25] },
+  { name: 'G',   type: 'Maj', freqs: [196.00, 246.94, 293.66, 392.00, 493.88] },
+  { name: 'Gm',  type: 'Min', freqs: [196.00, 233.08, 293.66, 392.00, 466.16] },
+  { name: 'G7',  type: '7th', freqs: [196.00, 246.94, 293.66, 349.23, 392.00] },
+  { name: 'D',   type: 'Maj', freqs: [146.83, 185.00, 220.00, 293.66, 369.99] },
+  { name: 'Dm',  type: 'Min', freqs: [146.83, 174.61, 220.00, 293.66, 349.23] },
+  { name: 'D7',  type: '7th', freqs: [146.83, 185.00, 220.00, 261.63, 293.66] },
+  { name: 'A',   type: 'Maj', freqs: [110.00, 138.59, 165.00, 220.00, 277.18] },
+  { name: 'Am',  type: 'Min', freqs: [110.00, 130.81, 165.00, 220.00, 261.63] },
+  { name: 'A7',  type: '7th', freqs: [110.00, 138.59, 165.00, 196.00, 220.00] },
+  { name: 'E',   type: 'Maj', freqs: [82.41, 103.83, 123.47, 164.81, 207.65] },
+  { name: 'Em',  type: 'Min', freqs: [82.41, 98.00, 123.47, 164.81, 196.00] },
+  { name: 'F',   type: 'Maj', freqs: [174.61, 220.00, 261.63, 349.23, 440.00] },
+  { name: 'Fm',  type: 'Min', freqs: [174.61, 207.65, 261.63, 349.23, 415.30] },
+  { name: 'Bb',  type: 'Maj', freqs: [116.54, 146.83, 174.61, 233.08, 293.66] },
+  { name: 'B7',  type: '7th', freqs: [123.47, 155.56, 185.00, 220.00, 246.94] },
+];
+
+let selectedOmniChord = null;
+let omniIsStruming = false;
+let omniStringEls = [];
+
+function playOmniTone(freq, t, vol = 0.22) {
+  // Omnichord has a warm, slightly electric harp-like tone
+  const osc = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
+  const gain = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 2800;
+  osc.type = 'sine';
+  osc2.type = 'triangle';
+  osc.frequency.setValueAtTime(freq, t);
+  osc2.frequency.setValueAtTime(freq * 2, t);
+  osc2.detune.setValueAtTime(3, t);
+  gain.gain.setValueAtTime(0, t);
+  gain.gain.linearRampToValueAtTime(vol, t + 0.008);
+  gain.gain.exponentialRampToValueAtTime(vol * 0.5, t + 0.15);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 2.2);
+  osc.connect(filter); osc2.connect(filter);
+  filter.connect(gain); gain.connect(ctx.destination);
+  osc.start(t); osc.stop(t + 2.5);
+  osc2.start(t); osc2.stop(t + 2.5);
+}
+
+function strumOmniStrings(stringsEl) {
+  if (!selectedOmniChord) return;
+  ensureCtx();
+  const now = ctx.currentTime;
+  const freqs = selectedOmniChord.freqs;
+  freqs.forEach((freq, i) => {
+    playOmniTone(freq, now + i * 0.04);
+  });
+  // Light up string visuals
+  omniStringEls.forEach((el, i) => {
+    setTimeout(() => {
+      el.classList.add('lit');
+      setTimeout(() => el.classList.remove('lit'), 300);
+    }, i * 40);
+  });
+  showNowPlaying(selectedOmniChord.name);
+}
+
+// ===================== SITAR DATA =====================
+// Sitar uses 7 main strings tuned roughly to Sa Re Ga Ma Pa Dha Ni
+// We'll present ragas as sets of notes the user can pluck individually
+const SITAR_BASE = 261.63; // Sa = C4
+
+// Sitar note frequencies (just intonation-ish)
+const SITAR_NOTES = {
+  'Sa':  261.63,
+  'Re♭': 277.18,
+  'Re':  293.66,
+  'Ga♭': 311.13,
+  'Ga':  329.63,
+  'Ma':  349.23,
+  'Ma#': 369.99,
+  'Pa':  392.00,
+  'Dha♭':415.30,
+  'Dha': 440.00,
+  'Ni♭': 466.16,
+  'Ni':  493.88,
+  "Sa'": 523.25,
+};
+
+const RAGAS = {
+  'Raga Yaman (Kalyan)': {
+    notes: ['Sa','Re','Ga','Ma#','Pa','Dha','Ni',"Sa'"],
+    desc: 'Evening raga — serene, romantic',
+  },
+  'Raga Bhairav': {
+    notes: ['Sa','Re♭','Ga','Ma','Pa','Dha♭','Ni',"Sa'"],
+    desc: 'Morning raga — devotional, majestic',
+  },
+  'Raga Bhairavi': {
+    notes: ['Sa','Re♭','Ga♭','Ma','Pa','Dha♭','Ni♭',"Sa'"],
+    desc: 'All-time raga — melancholic, farewell',
+  },
+  'Raga Kafi': {
+    notes: ['Sa','Re','Ga♭','Ma','Pa','Dha','Ni♭',"Sa'"],
+    desc: 'Playful raga — light, spring mood',
+  },
+  'Pentatonic (Sa)': {
+    notes: ['Sa','Re','Ga','Pa','Dha',"Sa'"],
+    desc: 'Universal scale — meditative',
+  },
+};
+
+function playSitarNote(freq, t) {
+  // Sitar: buzzy, metallic, with prominent jawari (buzz) and long sustain
+  const harmonics = [1, 2, 3, 4, 5, 6, 7];
+  const vols =      [0.35, 0.18, 0.12, 0.08, 0.05, 0.03, 0.02];
+  harmonics.forEach((h, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = i === 0 ? 'sawtooth' : 'sine';
+    osc.frequency.setValueAtTime(freq * h, t);
+    // Slight pitch wobble for sympathetic string feel
+    if (i < 2) {
+      osc.frequency.setValueAtTime(freq * h * 1.002, t + 0.01);
+      osc.frequency.exponentialRampToValueAtTime(freq * h, t + 0.08);
+    }
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(vols[i], t + 0.003);
+    gain.gain.exponentialRampToValueAtTime(vols[i] * 0.6, t + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 3.5);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(t); osc.stop(t + 4);
+  });
+
+  // Sympathetic string resonance (gentle drone-like shimmer)
+  ['Sa','Pa','Sa'].forEach((n, i) => {
+    const f = SITAR_NOTES[n] * (i === 2 ? 2 : 1);
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(f, t);
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(0.02, t + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 2.5);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(t); osc.stop(t + 3);
+  });
+}
+
+// ===================== RENDER OMNICHORD =====================
+function renderOmnichord() {
+  // Chord buttons
+  const chordsEl = document.getElementById('omniChords');
+  OMNI_CHORDS.forEach(chord => {
+    const btn = document.createElement('button');
+    btn.className = 'omni-chord-btn';
+    btn.innerHTML = `${chord.name}<span class="sub">${chord.type}</span>`;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.omni-chord-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedOmniChord = chord;
+      // Auto-strum once on select
+      ensureCtx();
+      strumOmniStrings();
+    });
+    chordsEl.appendChild(btn);
+  });
+
+  // Strumplate strings
+  const stringsEl = document.getElementById('omniStrings');
+  const colors = ['#c8844a','#d4944a','#c8a44a','#b8c84a','#74c84a','#4ac8a4','#4a94c8','#6474c8','#9464c8','#c864a4','#c84a6a'];
+  for (let i = 0; i < 11; i++) {
+    const line = document.createElement('div');
+    line.className = 'omni-string-line';
+    line.style.background = colors[i % colors.length];
+    line.style.opacity = '0.5';
+    omniStringEls.push(line);
+    stringsEl.appendChild(line);
+  }
+
+  // Strumplate interaction — mouse/touch sweep
+  const plate = document.getElementById('omniStrumplate');
+  let lastStrumY = null;
+  let strumCooldown = false;
+
+  function doStrum(y) {
+    if (strumCooldown) return;
+    strumCooldown = true;
+    setTimeout(() => strumCooldown = false, 180);
+    strumOmniStrings();
+  }
+
+  plate.addEventListener('mousedown', (e) => { omniIsStruming = true; lastStrumY = e.clientY; doStrum(e.clientY); });
+  plate.addEventListener('mousemove', (e) => {
+    if (!omniIsStruming) return;
+    if (Math.abs(e.clientY - lastStrumY) > 18) { lastStrumY = e.clientY; doStrum(e.clientY); }
+  });
+  plate.addEventListener('mouseup', () => omniIsStruming = false);
+  plate.addEventListener('mouseleave', () => omniIsStruming = false);
+  plate.addEventListener('touchstart', (e) => { omniIsStruming = true; lastStrumY = e.touches[0].clientY; doStrum(lastStrumY); e.preventDefault(); }, { passive: false });
+  plate.addEventListener('touchmove', (e) => {
+    if (!omniIsStruming) return;
+    const y = e.touches[0].clientY;
+    if (Math.abs(y - lastStrumY) > 18) { lastStrumY = y; doStrum(y); }
+    e.preventDefault();
+  }, { passive: false });
+  plate.addEventListener('touchend', () => omniIsStruming = false);
+}
+
+// ===================== RENDER SITAR =====================
+function renderSitar() {
+  const sectionsEl = document.getElementById('sitarSections');
+  Object.entries(RAGAS).forEach(([ragaName, raga]) => {
+    const section = document.createElement('div');
+    section.className = 'sitar-section';
+    const label = document.createElement('div');
+    label.className = 'sitar-section-label';
+    label.textContent = ragaName;
+    const desc = document.createElement('div');
+    desc.style.cssText = 'font-size:9px;color:var(--muted);letter-spacing:0.15em;margin-bottom:12px;padding-left:15px;text-transform:uppercase;';
+    desc.textContent = raga.desc;
+    section.appendChild(label);
+    section.appendChild(desc);
+    const notesEl = document.createElement('div');
+    notesEl.className = 'sitar-notes';
+    raga.notes.forEach(noteName => {
+      const freq = SITAR_NOTES[noteName];
+      if (!freq) return;
+      const btn = document.createElement('button');
+      btn.className = 'sitar-note-btn';
+      btn.innerHTML = `${noteName}<span class="sitar-sub">${Math.round(freq)} Hz</span>`;
+      btn.addEventListener('click', (e) => {
+        ensureCtx();
+        playSitarNote(freq, ctx.currentTime);
+        btn.classList.add('playing');
+        setTimeout(() => btn.classList.remove('playing'), 400);
+        showNowPlaying(noteName);
+        makeRipple(e);
+      });
+      notesEl.appendChild(btn);
+    });
+    section.appendChild(notesEl);
+    sectionsEl.appendChild(section);
+  });
+}
+
 // ===================== INSTRUMENT SWITCHER =====================
 let currentInstrument = 'guitar';
 
+const ALL_INSTRUMENTS = ['guitar','ukulele','piano','drums','omnichord','sitar'];
+
 function switchInstrument(name) {
   currentInstrument = name;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab')[['guitar','ukulele','piano','drums'].indexOf(name)].classList.add('active');
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', ALL_INSTRUMENTS[i] === name);
+  });
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
   document.getElementById('strumControls').style.display = (name === 'guitar' || name === 'ukulele') ? 'flex' : 'none';
@@ -1003,6 +1456,8 @@ renderStringPanel('panel-guitar', GUITAR_CHORDS, GUITAR_STRINGS, ['E','A','D','G
 renderStringPanel('panel-ukulele', UKE_CHORDS, UKE_STRINGS, ['G','C','E','A']);
 renderPiano();
 renderDrums();
+renderOmnichord();
+renderSitar();
 </script>
 </body>
 </html>
